@@ -5,158 +5,120 @@
 #include <fstream>
 #include <string>
 #include <list>
+#include"Datos.h"
+
 using namespace std;
 
-
-string cargar() {
-
-    /*int j = (archivo[i] + 1) % n;
-    do {
-        if (archivo[j] == 0) {
-            llave[j] = llave[j];
-            archivo[j] = 1;
-        }
-        else {
-            j++;
-        }
-    } while (j > n);
-
-    return j;*/
-
-    return "hola";
-
-}
-
-string BusquedaLlave() {
-
-    
-    /*int j = 0;
-
-    while (j > n) {
-        if (archivo[j] == llave) {
-            return j; 
-        }
-        else {
-            j++;
-        }
+void Verificar(string archivo) {
+    // Verifica si el archivo existe antes de intentar abrirlo
+    ifstream testFile(archivo);
+    if (!testFile.good()) {
+        cerr << "El archivo no existe o no se puede acceder." << endl;
+        testFile.close();
+        return; 
     }
-
-    return -1; */
-
-    return "hola";
+    testFile.close();
 }
-
-string BusquedaValor() {
-    
-    return "hola";
-
-}
-
 
 int main()
 {
     // PROYECTO
 
-    string archivoBuscar; 
+    Datos datos; 
 
-    cout << "Ingrese el nombre del archivo: ";
-    cin >> archivoBuscar;
-    cout << "";
+    string archivo;
 
-    ifstream archivo(archivoBuscar);
+    cout << "Ingrese la ruta del archivo que desea utilizar (por ejemplo, C:\\ruta\\del\\archivo.txt): ";
+    cin >> archivo;
+    cout << endl;
 
-    if (!archivo.is_open()) {
-        cerr << "ERROR...SE PRODUJO UN ERROR AL ABRIR EL ARCHIVO" << endl; 
-        return 1; 
+    ifstream testFile(archivo);
+    if (!testFile.good()) {
+        cerr << "El archivo no existe o no se puede acceder." << endl;
+        testFile.close();
+        return 1;
     }
+    testFile.close();
 
-    string linea; 
-
-    while (getline(archivo, linea)) {
-        size_t pos = linea.find(",");
-        if (pos != std::string::npos) {
-            string llave = linea.substr(0, pos);
-            string datos = linea.substr(pos + 1);
-
-        }
-    }
-
-    archivo.close(); 
+    datos.CargaArchivo(archivo);
 
     int opcion;
-    string llave; 
-    list<string> BusquedaKey;
-    list<string> BusquedaVal;
+    string valorBusqueda;
+    string claveBusqueda;
 
     do {
 
-        cout << "-------------------- MENU -------------------- \n";
-        cout << "1) Cargar mas datos a memoria. \n";
-        cout << "2) Busqueda de datos por llave. \n";
-        cout << "3) Busqueda de datos por valor. \n"; 
-        cout << "4) Salir \n";
-        cout << "---------------------------------------------- \n";
+        cout << " -------------------- MENU -------------------- \n";
+        cout << "| 1) Cargar datos a memoria.                   |\n";
+        cout << "| 2) Busqueda de datos por llave.              |\n";
+        cout << "| 3) Busqueda de datos por valor.              |\n";
+        cout << "| 4) Salir                                     |\n";
+        cout << " ---------------------------------------------- \n";
         cout << "Ingrese una de las opciones: "; 
         cin >> opcion; 
 
         cout << "\n";
 
+        string llave; 
+        string valor; 
+
         switch (opcion){
         case 1: 
 
             system("cls");
-            cout << "CARGAR DATOS A MEMORIA";
 
+            cout << "CARGAR DATOS A MEMORIA" << endl; 
 
+            cout << endl; 
 
-            break;
+            cout << "Ingrese la ruta o nombre del nuevo archivo: ";
+            cin >> archivo;
+            
+            Verificar(archivo);
+
+            datos.CargaArchivo(archivo);
+
+            break; 
+
         case 2: 
 
             system("cls");
 
+            // Buscar datos por key
+
+            cout << "BUSCAR DATOS POR LLAVE" << endl;
+
+            cout << endl;
+
             cout << "BUSQUEDA DE DATOS POR LLAVE" << endl;
 
-
-
-            cout << "Ingrese la llave que desea buscar: ";
-            cin >> llave; 
-            if (llave == "hola") {
-                cout << "" << endl; 
-            }
-            else {
-                cout << "LA LLAVE BUSCADA NO EXISTE" << endl; 
-            }
-
-            /*int op = 0, n, llave, x;
-
-            cout << "Ingrese la llave que desea buscar: ";
+            cout << "Ingrese la llave a buscar: ";
             cin >> llave; 
 
-            int x, n; 
-            int* archivo; 
+            datos.BusquedaLlave(llave);
+            
+            break;
 
-            x = BusquedaLlave(archivo, n, llave);
-
-            if (x == -1) {
-                cout << "No se encontro ninguna llave" << endl; 
-            }
-            else {
-                cout << "Llave encontrada: " << x << endl; 
-            }*/
-
-                break;
         case 3: 
 
             system("cls");
-            cout << "BUSQUEDA DE DATOS POR VALOR";
 
+            cout << "BUSQUEDA DE DATOS POR VALOR" << endl; 
 
+            cout << endl;
+
+            cout << "Ingrese el valor a buscar: ";
+            cin >> valor; 
+            datos.BusquedaValor(valor);
 
             break;
 
         case 4: 
 
             system("cls");
+
+            cout << endl; 
+
             cout << "SALIENDO DEL PROGRAMA...";
             break; 
 
@@ -168,7 +130,7 @@ int main()
 
         }
 
-        std::cout <<" " << std::endl;
+        std::cout << std::endl;
 
     } while (opcion != 4);
 
